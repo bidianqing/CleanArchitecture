@@ -33,6 +33,11 @@ namespace Portal
             //services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddAllRegisterTypes(Assembly.Load("Domain"), Assembly.Load("Infrastructure"));
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
