@@ -28,6 +28,8 @@ namespace Portal
 
             services.AddHttpContextAccessor();
 
+            services.AddMemoryCache();
+
             services.AddDapper(options =>
             {
                 options.ConnectionString = "";
