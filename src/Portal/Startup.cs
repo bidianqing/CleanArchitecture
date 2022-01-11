@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +9,8 @@ using Microsoft.OpenApi.Models;
 using Portal.Infrastructure;
 using System;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Reflection;
 
 namespace Portal
@@ -24,7 +27,27 @@ namespace Portal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = (actionContext) =>
+                    {
+                        actionContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+                        string errorMessage = actionContext.ModelState.Values.First(u => u.Errors.Count > 0).Errors.First().ErrorMessage;
+
+                        return new JsonResult(new
+                        {
+                            success = false,
+                            message = errorMessage,
+                            data = (string)null
+                        });
+                    };
+                })
+                .AddNewtonsoftJson(options =>
+                {
+
+                });
 
             services.AddHttpContextAccessor();
 
