@@ -1,16 +1,18 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Linq;
 using Portal.Infrastructure;
 using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using System.Reflection;
 
 namespace Portal
@@ -92,10 +94,20 @@ namespace Portal
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseExceptionHandler(new ExceptionHandlerOptions
             {
-                app.UseDeveloperExceptionPage();
-            }
+                ExceptionHandler = async (httpContext) =>
+                {
+                    httpContext.Response.ContentType = MediaTypeNames.Application.Json;
+
+                    JObject obj = new JObject();
+                    obj["success"] = false;
+                    obj["message"] = "程序异常请联系系统管理员";
+                    obj["data"] = null;
+
+                    await httpContext.Response.WriteAsync(obj.ToString());
+                }
+            });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
