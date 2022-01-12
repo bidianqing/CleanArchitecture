@@ -58,7 +58,7 @@ namespace Portal
             services.AddDapper(options =>
             {
                 options.ConnectionString = "";
-                options.DatabaseType = DatabaseType.SqlServer;
+                options.DatabaseType = DatabaseType.MySql;
             });
 
             // Register the Swagger generator, defining one or more Swagger documents
