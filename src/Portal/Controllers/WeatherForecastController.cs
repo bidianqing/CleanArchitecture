@@ -1,4 +1,5 @@
-﻿using Domain.Services.Interfaces;
+﻿using Domain.SeedWork;
+using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -29,18 +30,20 @@ namespace Portal.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get([Required] string name)
+        public ResultModel<WeatherForecast[]> Get([Required] string name)
         {
             _orderService.Test();
 
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var data = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+
+            return ResultModel.Success(data);
         }
     }
 }

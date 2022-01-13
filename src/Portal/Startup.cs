@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
 using Portal.Infrastructure;
+using StackExchange.Redis;
 using System;
 using System.IO;
 using System.Linq;
@@ -88,6 +90,43 @@ namespace Portal
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = "localhost:6379";
+            });
+            // or
+            services.AddSingleton<ConnectionMultiplexer>(sp =>
+            {
+                var connection = ConnectionMultiplexer.Connect("localhost:6379");
+
+                var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger<Startup>();
+                connection.HashSlotMoved += (sender, e) =>
+                {
+                    logger.LogWarning("HashSlotMoved");
+                };
+                connection.ConfigurationChangedBroadcast += (sender, e) =>
+                {
+                    logger.LogWarning("ConfigurationChangedBroadcast");
+                };
+                connection.ErrorMessage += (sender, e) =>
+                {
+                    logger.LogWarning("ErrorMessage");
+                };
+                connection.ConnectionFailed += (sender, e) =>
+                {
+                    logger.LogWarning("ConnectionFailed");
+                };
+                connection.InternalError += (sender, e) =>
+                {
+                    logger.LogWarning("InternalError");
+                };
+                connection.ConnectionRestored += (sender, e) =>
+                {
+                    logger.LogWarning("ConnectionRestored");
+                };
+                connection.ConfigurationChanged += (sender, e) =>
+                {
+                    logger.LogWarning("ConfigurationChanged");
+                };
+
+                return connection;
             });
         }
 
