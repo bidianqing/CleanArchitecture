@@ -34,7 +34,7 @@ namespace Portal
                 {
                     options.InvalidModelStateResponseFactory = (actionContext) =>
                     {
-                        actionContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        actionContext.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
                         string errorMessage = actionContext.ModelState.Values.First(u => u.Errors.Count > 0).Errors.First().ErrorMessage;
 
