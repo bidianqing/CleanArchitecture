@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -137,6 +138,10 @@ namespace Portal
             {
                 ExceptionHandler = async (httpContext) =>
                 {
+                    var logger = httpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger<Startup>();
+                    var ex = httpContext.Features.Get<IExceptionHandlerFeature>();
+                    logger.LogError(ex.Error, "≥Ã–Ú“Ï≥£");
+
                     httpContext.Response.ContentType = MediaTypeNames.Application.Json;
 
                     JObject obj = new JObject();
