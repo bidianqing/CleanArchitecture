@@ -18,3 +18,6 @@
 
 ## 存储
 - AzureStorage https://github.com/bidianqing/AspNetCoreUseAzureStorage
+
+## 数据库访问
+- Dapper https://github.com/bidianqing/oneaspnet.repository
