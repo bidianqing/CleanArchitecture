@@ -9,3 +9,6 @@
 
 ## 接口文档
 - Swagger https://github.com/bidianqing/AspNetCoreUseSwagger
+
+## 分布式链路追踪
+- OpenTelemetry https://github.com/bidianqing/AspNetCoreUseOpenTelemetry
