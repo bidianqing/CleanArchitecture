@@ -15,3 +15,6 @@
 
 ## 认证
 - JWT https://github.com/bidianqing/AspNetCoreWebApiJWTAuthentication
+
+## 存储
+- AzureStorage https://github.com/bidianqing/AspNetCoreUseAzureStorage
