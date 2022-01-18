@@ -12,3 +12,6 @@
 
 ## 分布式链路追踪
 - OpenTelemetry https://github.com/bidianqing/AspNetCoreUseOpenTelemetry
+
+## 认证
+- JWT https://github.com/bidianqing/AspNetCoreWebApiJWTAuthentication
