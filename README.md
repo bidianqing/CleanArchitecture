@@ -21,3 +21,7 @@
 
 ## 数据库访问
 - Dapper https://github.com/bidianqing/oneaspnet.repository
+
+## QA
+### Domain里的SeedWork文件夹是干嘛的？  
+https://docs.microsoft.com/zh-cn/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/seedwork-domain-model-base-classes-interfaces
