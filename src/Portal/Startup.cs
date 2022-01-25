@@ -146,7 +146,7 @@ namespace Portal
 
                     JObject obj = new JObject();
                     obj["success"] = false;
-                    obj["message"] = "程序异常请联系系统管理员";
+                    obj["message"] = "服务器开小差了，稍后再试吧";
                     obj["data"] = null;
 
                     await httpContext.Response.WriteAsync(obj.ToString());
