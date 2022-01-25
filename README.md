@@ -21,3 +21,9 @@
 
 ## 数据库访问
 - Dapper https://github.com/bidianqing/oneaspnet.repository
+
+## Domain里的SeedWork文件夹是干嘛的？  
+https://docs.microsoft.com/zh-cn/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/seedwork-domain-model-base-classes-interfaces
+
+## Portal项目是应用层吗？
+是的 https://docs.microsoft.com/zh-cn/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/microservice-application-layer-implementation-web-api
