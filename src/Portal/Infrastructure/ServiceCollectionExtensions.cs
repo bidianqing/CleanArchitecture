@@ -26,6 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
             foreach (var interfaceType in interfaceTypes)
             {
                 var attribute = interfaceType.GetCustomAttribute(typeof(DependencyInjectionAttribute)) as DependencyInjectionAttribute;
+                if (attribute == null) continue;
 
                 var multipImplTypes = implTypes.Where(u => u.IsClass && u.GetInterfaces().Contains(interfaceType));
 
