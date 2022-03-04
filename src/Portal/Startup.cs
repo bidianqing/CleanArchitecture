@@ -1,20 +1,10 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
 using Portal.Infrastructure;
 using StackExchange.Redis;
-using System;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 
@@ -41,12 +31,12 @@ namespace Portal
 
                         string errorMessage = actionContext.ModelState.Values.First(u => u.Errors.Count > 0).Errors.First().ErrorMessage;
 
-                        return new JsonResult(new
-                        {
-                            success = false,
-                            message = errorMessage,
-                            data = (string)null
-                        });
+                        JObject obj = new JObject();
+                        obj["success"] = false;
+                        obj["message"] = errorMessage;
+                        obj["data"] = null;
+
+                        return new JsonResult(obj);
                     };
                 })
                 .AddNewtonsoftJson(options =>
@@ -140,7 +130,7 @@ namespace Portal
                 {
                     var logger = httpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger<Startup>();
                     var ex = httpContext.Features.Get<IExceptionHandlerFeature>();
-                    logger.LogError(ex.Error, "程序异常");
+                    logger.LogError(ex?.Error, "程序异常");
 
                     httpContext.Response.ContentType = MediaTypeNames.Application.Json;
 
