@@ -54,6 +54,9 @@ namespace Portal
                 options.DatabaseType = DatabaseType.MySql;
             });
 
+            services.AddTransient<CustomLoggingHttpMessageHandler>();
+            services.AddHttpClient("common").AddHttpMessageHandler<CustomLoggingHttpMessageHandler>();
+
             // Register the Swagger generator, defining one or more Swagger documents
             // https://docs.microsoft.com/zh-cn/aspnet/core/tutorials/getting-started-with-swashbuckle
             services.AddSwaggerGen(c =>
