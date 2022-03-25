@@ -1,12 +1,7 @@
 ﻿using Domain.SeedWork;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Portal.Controllers
 {
@@ -21,18 +16,24 @@ namespace Portal.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IOrderService _orderService;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-            IOrderService orderService)
+            IOrderService orderService,
+            IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _orderService = orderService;
+            _httpClientFactory = httpClientFactory;
         }
 
         [HttpGet]
-        public ResultModel<WeatherForecast[]> Get([Required] string name)
+        public async Task<ResultModel<WeatherForecast[]>> Get([Required] string name)
         {
             _orderService.Test();
+
+            var httpClient = _httpClientFactory.CreateClient("common");
+            await httpClient.GetAsync("https://api.jsonserve.com/3jYJJ6");
 
             var rng = new Random();
             var data = Enumerable.Range(1, 5).Select(index => new WeatherForecast
