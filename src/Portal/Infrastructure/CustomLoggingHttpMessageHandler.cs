@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
 
@@ -14,7 +15,7 @@ namespace Portal.Infrastructure
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             sb.AppendLine($"RequestExternalSystem ");
             sb.AppendLine($"RequestTime:{DateTime.Now.ToString()} ");
@@ -25,9 +26,22 @@ namespace Portal.Infrastructure
                 string requestBody = await request.Content.ReadAsStringAsync();
                 sb.AppendLine($"RequestBody:{requestBody} ");
             }
-            if (request.Options.Any())
+
+            var options = new JObject();
+            foreach (var item in request.Options)
             {
-                sb.AppendLine($"Options:{JsonConvert.SerializeObject(request.Options, Formatting.None)} ");
+                try
+                {
+                    options[item.Key] = JsonConvert.SerializeObject(item.Value);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"序列化HttpRequestOptions异常，Key={item.Key}，RequestUri={request.RequestUri}");
+                }
+            }
+            if (options.Properties().Any())
+            {
+                sb.AppendLine($"Options:{options.ToString()}");
             }
 
             var stopWatch = Stopwatch.StartNew();
@@ -39,7 +53,13 @@ namespace Portal.Infrastructure
             var reponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
             sb.AppendLine($"ReponseBody:{reponseBody} ");
 
-            _logger.LogInformation(sb.ToString());
+            LogLevel level = LogLevel.Information;
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                level = LogLevel.Error;
+            }
+
+            _logger.Log(level, message: sb.ToString());
 
             return httpResponseMessage;
         }

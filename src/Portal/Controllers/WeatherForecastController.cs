@@ -1,6 +1,8 @@
 ﻿using Domain.SeedWork;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 
 namespace Portal.Controllers
@@ -33,7 +35,9 @@ namespace Portal.Controllers
             _orderService.Test();
 
             var httpClient = _httpClientFactory.CreateClient("common");
-            await httpClient.GetAsync("https://api.jsonserve.com/3jYJJ6");
+            HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, "https://api.jsonserve.com/3jYJJ6");
+            httpRequestMessage.Options.TryAdd("name", "bidianqing");
+            await httpClient.SendAsync(httpRequestMessage, HttpCompletionOption.ResponseHeadersRead);
 
             var rng = new Random();
             var data = Enumerable.Range(1, 5).Select(index => new WeatherForecast
