@@ -1,8 +1,8 @@
+using Domain.SeedWork;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Linq;
 using Portal.Infrastructure;
 using StackExchange.Redis;
 using System.Net.Mime;
@@ -31,12 +31,7 @@ namespace Portal
 
                         string errorMessage = actionContext.ModelState.Values.First(u => u.Errors.Count > 0).Errors.First().ErrorMessage;
 
-                        JObject obj = new JObject();
-                        obj["success"] = false;
-                        obj["message"] = errorMessage;
-                        obj["data"] = null;
-
-                        return new JsonResult(obj);
+                        return new JsonResult(ResultModel.Fail<object>(message: errorMessage));
                     };
                 })
                 .AddNewtonsoftJson(options =>
@@ -137,12 +132,7 @@ namespace Portal
 
                     httpContext.Response.ContentType = MediaTypeNames.Application.Json;
 
-                    JObject obj = new JObject();
-                    obj["success"] = false;
-                    obj["message"] = "服务器开小差了，稍后再试吧";
-                    obj["data"] = null;
-
-                    await httpContext.Response.WriteAsync(obj.ToString());
+                    await httpContext.Response.WriteAsync(ResultModel.Fail<object>(message: "服务器开小差了，请稍后再试！").ToString());
                 }
             });
 

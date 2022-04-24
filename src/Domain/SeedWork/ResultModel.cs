@@ -1,4 +1,6 @@
-﻿namespace Domain.SeedWork
+﻿using Newtonsoft.Json;
+
+namespace Domain.SeedWork
 {
     /// <summary>
     /// 
@@ -22,17 +24,25 @@
         /// <summary>
         /// 
         /// </summary>
+        [JsonProperty("success")]
         public bool Success { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [JsonProperty("message")]
         public string Message { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [JsonProperty("data")]
         public T Data { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.None);
+        }
     }
 
     /// <summary>
