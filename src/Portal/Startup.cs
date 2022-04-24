@@ -128,7 +128,7 @@ namespace Portal
                 {
                     var logger = httpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger<Startup>();
                     var ex = httpContext.Features.Get<IExceptionHandlerFeature>();
-                    logger.LogError(ex?.Error, "≥Ã–Ú“Ï≥£");
+                    logger.LogError(ex?.Error, "OnException");
 
                     httpContext.Response.ContentType = MediaTypeNames.Application.Json;
 
