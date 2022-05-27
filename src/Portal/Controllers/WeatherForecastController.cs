@@ -34,7 +34,7 @@ namespace Portal.Controllers
         {
             _orderService.Test();
 
-            var httpClient = _httpClientFactory.CreateClient("common");
+            var httpClient = _httpClientFactory.CreateClient("default");
             HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, "https://api.jsonserve.com/3jYJJ6");
             httpRequestMessage.Options.TryAdd("name", "bidianqing");
             await httpClient.SendAsync(httpRequestMessage, HttpCompletionOption.ResponseHeadersRead);
