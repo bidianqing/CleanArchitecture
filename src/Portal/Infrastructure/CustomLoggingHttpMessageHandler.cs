@@ -21,6 +21,11 @@ namespace Portal.Infrastructure
             sb.AppendLine($"RequestTime:{DateTime.Now.ToString()} ");
             sb.AppendLine($"Method:{request.Method} ");
             sb.AppendLine($"RequestUri:{request.RequestUri} ");
+            if (request.Headers.Any())
+            {
+                var headers = request.Headers.Select(header => header.Key + "=" + string.Join(",", header.Value));
+                sb.AppendLine($"Headers:{string.Join(";", headers)}");
+            }
             if (request.Content != null)
             {
                 string requestBody = await request.Content.ReadAsStringAsync();
