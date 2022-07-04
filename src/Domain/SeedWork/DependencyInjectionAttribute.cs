@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-
-namespace Domain.SeedWork
+﻿namespace Domain.SeedWork
 {
     [AttributeUsage(AttributeTargets.Interface)]
     public class DependencyInjectionAttribute : Attribute

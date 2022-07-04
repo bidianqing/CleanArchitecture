@@ -1,10 +1,4 @@
-﻿using Domain.AggregatesModel.OrderAggregate;
-using OneAspNet.Repository.Dapper;
-using StackExchange.Redis;
-using System;
-using System.Data.Common;
-
-namespace Infrastructure.Repositories
+﻿namespace Infrastructure.Repositories
 {
     public class OrderRepository : IOrderRepository
     {

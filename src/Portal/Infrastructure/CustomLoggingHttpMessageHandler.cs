@@ -1,9 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using System.Text;
-
-namespace Portal.Infrastructure
+﻿namespace Portal.Infrastructure
 {
     public class CustomLoggingHttpMessageHandler : DelegatingHandler
     {

@@ -1,11 +1,4 @@
-﻿using Domain.SeedWork;
-using Domain.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
-
-namespace Portal.Controllers
+﻿namespace Portal.Controllers
 {
     [ApiController]
     [Route("[controller]")]

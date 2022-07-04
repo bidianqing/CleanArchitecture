@@ -1,10 +1,4 @@
-﻿using Domain.AggregatesModel.OrderAggregate;
-using Domain.Services.Interfaces;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using System;
-
-namespace Domain.Services
+﻿namespace Domain.Services
 {
     public class OrderService : IOrderService
     {

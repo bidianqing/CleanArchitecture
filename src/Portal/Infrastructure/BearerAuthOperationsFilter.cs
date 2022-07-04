@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Portal.Infrastructure
+﻿namespace Portal.Infrastructure
 {
     public class BearerAuthOperationsFilter : IOperationFilter
     {

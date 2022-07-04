@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Domain.SeedWork
+﻿namespace Domain.SeedWork
 {
     /// <summary>
     /// 
