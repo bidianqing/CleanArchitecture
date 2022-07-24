@@ -1,3 +1,5 @@
+using MediatR;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -19,13 +21,15 @@ builder.Services.AddControllers()
 
                 });
 
+builder.Services.AddMediatR(Assembly.Load("Domain"), Assembly.Load("Portal"));
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddMemoryCache();
 
 builder.Services.AddDapper(options =>
 {
-    options.ConnectionString = "";
+    options.ConnectionString = "server=127.0.0.1;port=3306;database=demo;user id=root;password=root;CharacterSet=utf8mb4;SslMode=None;Allow User Variables=true;";
     options.DatabaseType = DatabaseType.MySql;
 });
 
@@ -54,7 +58,7 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<BearerAuthOperationsFilter>();
 });
 
-builder.Services.AddAllRegisterTypes(Assembly.Load("Domain"), Assembly.Load("Infrastructure"));
+builder.Services.AddAllRegisterTypes(Assembly.Load("Portal"), Assembly.Load("Domain"), Assembly.Load("Infrastructure"));
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
