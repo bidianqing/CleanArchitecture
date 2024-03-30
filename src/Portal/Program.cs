@@ -1,4 +1,4 @@
-using MediatR;
+锘縰sing MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,7 +52,7 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer",
-        Description = "在下框中输入Bearer 你的jwt token",
+        Description = "鍦ㄤ笅妗嗕腑杈撳叆Bearer 浣犵殑jwt token",
     });
 
     c.OperationFilter<BearerAuthOperationsFilter>();
@@ -115,7 +115,7 @@ app.UseExceptionHandler(new ExceptionHandlerOptions
 
         httpContext.Response.ContentType = MediaTypeNames.Application.Json;
 
-        await httpContext.Response.WriteAsync(ResultModel.Fail<object>(message: "服务器开小差了，请稍后再试！").ToString());
+        await httpContext.Response.WriteAsync(ResultModel.Fail<object>(message: "鏈嶅姟鍣ㄥ紑灏忓樊浜嗭紝璇风◢鍚庡啀璇曪紒").ToString());
     }
 });
 
