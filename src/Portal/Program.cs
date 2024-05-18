@@ -20,8 +20,10 @@ builder.Services.AddControllers()
                 {
 
                 });
-
-builder.Services.AddMediatR(Assembly.Load("Domain"), Assembly.Load("Portal"));
+builder.Services.AddMediatR(xfg =>
+{
+    xfg.RegisterServicesFromAssemblies(Assembly.Load("Domain"), Assembly.Load("Portal"));
+});
 
 builder.Services.AddHttpContextAccessor();
 
