@@ -1,4 +1,5 @@
 ﻿using Domain.AggregatesModel.ToDoAggregate;
+using Domain.SeedWork;
 
 namespace Portal.Application.Queries
 {
@@ -10,15 +11,15 @@ namespace Portal.Application.Queries
 
     public class ToDoQueries : IToDoQueries
     {
-        private readonly IToDoRepository _toDoRepository;
-        public ToDoQueries(IToDoRepository toDoRepository)
+        private readonly IRepository<ToDo> _toDoRepository;
+        public ToDoQueries(IRepository<ToDo> toDoRepository)
         {
             _toDoRepository = toDoRepository;
         }
 
         public async Task<ToDo> Get(int id)
         {
-            return await _toDoRepository.Get(id);
+            return await _toDoRepository.GetByIdAsync(id);
         }
     }
 }

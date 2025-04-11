@@ -1,8 +1,9 @@
-﻿namespace Domain.SeedWork
+﻿using SqlSugar;
+
+namespace Domain.SeedWork
 {
-    [DependencyInjection(ServiceLifetime.Scoped)]
-    public interface IRepository
+    public interface IRepository<T> : ISimpleClient<T> where T : class, new()
     {
-        Task<int> Insert<T>(T entity) where T : Entity, new();
+        ISqlSugarClient Context { get; set; }
     }
 }

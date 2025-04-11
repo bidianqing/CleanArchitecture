@@ -2,25 +2,15 @@
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository _orderRepository;
         private readonly ILogger<OrderService> _logger;
-        private readonly IDistributedCache _cache;
-
-        public OrderService(IOrderRepository orderRepository, ILogger<OrderService> logger, IDistributedCache cache)
+        public OrderService(ILogger<OrderService> logger)
         {
-            _orderRepository = orderRepository;
             _logger = logger;
-            _cache = cache;
         }
 
         public void Test()
         {
             _logger.LogInformation("日志测试");
-            _cache.SetString("name", "tom", new DistributedCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10)
-            });
-            _orderRepository.Test();
         }
     }
 }

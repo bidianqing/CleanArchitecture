@@ -9,8 +9,6 @@
 
   <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.5" />
-    <PackageReference Include="OneAspNet.Repository.Dapper" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,7 @@
 ﻿using Domain.AggregatesModel.ToDoAggregate;
+using Domain.SeedWork;
 using MediatR;
+using MySqlConnector;
 
 namespace Portal.Application.Commands
 {
@@ -13,9 +15,9 @@ namespace Portal.Application.Commands
 
     public class CreateToDoCommandHandler : IRequestHandler<CreateToDoCommand, int>
     {
-        private readonly IToDoRepository _toDoRepository;
+        private readonly IRepository<ToDo> _toDoRepository;
 
-        public CreateToDoCommandHandler(IToDoRepository toDoRepository)
+        public CreateToDoCommandHandler(IRepository<ToDo> toDoRepository)
         {
             _toDoRepository = toDoRepository;
         }
@@ -26,10 +28,19 @@ namespace Portal.Application.Commands
             {
                 Title = request.Title,
                 Description = request.Description,
-                CreateTime = DateTime.Now
+                CreateTime = DateTime.Now,
+                //UpdateTime = DateTime.Now,
+                //IsDeleted = false,
+                //Creator = "admin",
+                //Updater = "admin",
+                //DeletedTime = null,
+                //Deleted = false,
+                //DeletedBy = null,
+                //Version = 1,
+                //TenantId = "1",
             };
 
-            return await _toDoRepository.Add(todo);
+            return await _toDoRepository.Context.Insertable(todo).ExecuteReturnIdentityAsync();
         }
     }
 }

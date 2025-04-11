@@ -1,10 +1,10 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using SqlSugar;
 
 namespace Domain.SeedWork
 {
-    public abstract class Entity
+    public abstract class Entity<TKey>
     {
-        [Key]
-        public virtual int Id { get; set; }
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
+        public virtual TKey Id { get; set; }
     }
 }
