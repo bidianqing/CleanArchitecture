@@ -1,7 +1,5 @@
 ﻿using Domain.AggregatesModel.ToDoAggregate;
-using Domain.SeedWork;
 using MediatR;
-using MySqlConnector;
 
 namespace Portal.Application.Commands
 {
@@ -26,6 +24,7 @@ namespace Portal.Application.Commands
         {
             var todo = new ToDo
             {
+                Id = Guid.CreateVersion7(),
                 Title = request.Title,
                 Description = request.Description,
                 CreateTime = DateTime.Now,
