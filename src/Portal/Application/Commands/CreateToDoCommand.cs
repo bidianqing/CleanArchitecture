@@ -24,7 +24,7 @@ namespace Portal.Application.Commands
         {
             var todo = new ToDo
             {
-                Id = Guid.CreateVersion7(),
+                Id = Guid.CreateVersion7(DateTimeOffset.Now),
                 Title = request.Title,
                 Description = request.Description,
                 CreateTime = DateTime.Now,
