@@ -9,4 +9,3 @@ global using Microsoft.Extensions.Logging;
 global using Domain.AggregatesModel.OrderAggregate;
 global using Domain.SeedWork;
 global using Microsoft.Extensions.DependencyInjection;
-global using Newtonsoft.Json;

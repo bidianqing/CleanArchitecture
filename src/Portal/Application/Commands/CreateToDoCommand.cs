@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Portal.Application.Commands
 {
-    public class CreateToDoCommand : IRequest<int>
+    public class CreateToDoCommand : IRequest<Guid>
     {
         [Required]
         public string Title { get; set; }
@@ -11,35 +11,26 @@ namespace Portal.Application.Commands
         public string Description { get; set; }
     }
 
-    public class CreateToDoCommandHandler : IRequestHandler<CreateToDoCommand, int>
+    public class CreateToDoCommandHandler : IRequestHandler<CreateToDoCommand, Guid>
     {
-        private readonly IRepository<ToDo> _toDoRepository;
+        private readonly IToDoRepository _toDoRepository;
 
-        public CreateToDoCommandHandler(IRepository<ToDo> toDoRepository)
+        public CreateToDoCommandHandler(IToDoRepository toDoRepository)
         {
             _toDoRepository = toDoRepository;
         }
 
-        public async Task<int> Handle(CreateToDoCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateToDoCommand request, CancellationToken cancellationToken)
         {
             var todo = new ToDo
             {
-                Id = Guid.CreateVersion7(DateTimeOffset.Now),
                 Title = request.Title,
                 Description = request.Description,
-                CreateTime = DateTime.Now,
-                //UpdateTime = DateTime.Now,
-                //IsDeleted = false,
-                //Creator = "admin",
-                //Updater = "admin",
-                //DeletedTime = null,
-                //Deleted = false,
-                //DeletedBy = null,
-                //Version = 1,
-                //TenantId = "1",
             };
 
-            return await _toDoRepository.Context.Insertable(todo).ExecuteReturnIdentityAsync();
+            var insertedTodoEntity = await _toDoRepository.InsertReturnEntityAsync(todo, cancellationToken);
+
+            return insertedTodoEntity.Id;
         }
     }
 }

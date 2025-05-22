@@ -1,4 +1,7 @@
-﻿namespace Domain.SeedWork
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace Domain.SeedWork
 {
     /// <summary>
     /// 
@@ -22,24 +25,24 @@
         /// <summary>
         /// 
         /// </summary>
-        [JsonProperty("success")]
+        [JsonPropertyName("success")]
         public bool Success { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [JsonProperty("message")]
+        [JsonPropertyName("message")]
         public string Message { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public T Data { get; set; }
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this, Formatting.None);
+            return JsonSerializer.Serialize(this);
         }
     }
 

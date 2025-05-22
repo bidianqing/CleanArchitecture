@@ -2,7 +2,7 @@
 
 namespace Domain.SeedWork
 {
-    public abstract class BaseAuditableEntity : BaseEntity<Guid>
+    public abstract class BaseAuditableEntity : BaseEntity
     {
         public DateTimeOffset Created { get; set; }
 
@@ -13,9 +13,9 @@ namespace Domain.SeedWork
         public string LastModifiedBy { get; set; }
     }
 
-    public abstract class BaseEntity<TKey>
+    public abstract class BaseEntity
     {
         [SugarColumn(IsPrimaryKey = true)]
-        public virtual TKey Id { get; set; }
+        public virtual Guid Id { get; set; }
     }
 }

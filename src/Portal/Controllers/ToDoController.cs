@@ -1,4 +1,6 @@
-﻿using Domain.AggregatesModel.ToDoAggregate;
+﻿using Domain.AggregatesModel.OrderAggregate;
+using Domain.AggregatesModel.ToDoAggregate;
+using Domain.Events;
 using MediatR;
 using Portal.Application.Commands;
 using Portal.Application.Queries;
@@ -21,17 +23,19 @@ namespace Portal.Controllers
         }
 
         [HttpPost]
-        public async Task<ResultModel<int>> Post([FromBody] CreateToDoCommand command)
+        public async Task<ResultModel<Guid>> Post([FromBody] CreateToDoCommand command)
         {
-            var todoId =  await _mediator.Send(command);
+            Guid id = await _mediator.Send(command);
 
-            return ResultModel.Success(todoId);
+            return ResultModel.Success(id);
         }
 
         [HttpGet("{id}")]
-        public async Task<ResultModel<ToDo>> Get([FromRoute] int id)
+        public async Task<ResultModel<ToDo>> Get([FromRoute] Guid id)
         {
             var todo = await _toDoQueries.Get(id);
+
+            await _mediator.Publish(new CreatedOrderDomainEvent(new Order(), id));
 
             return ResultModel.Success(todo);
         }

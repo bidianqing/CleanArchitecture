@@ -1,8 +1,6 @@
 ﻿global using Domain.SeedWork;
 global using Domain.Services.Interfaces;
 global using Microsoft.AspNetCore.Mvc;
-global using Newtonsoft.Json;
-global using Newtonsoft.Json.Linq;
 global using System.ComponentModel.DataAnnotations;
 global using Microsoft.AspNetCore.Authorization;
 global using System.Diagnostics;
