@@ -8,6 +8,7 @@
 
             List<TypeInfo> interfaceTypes = new List<TypeInfo>();
             List<TypeInfo> implTypes = new List<TypeInfo>();
+            List<TypeInfo> serviceTypes = new List<TypeInfo>();
             foreach (var assembly in assemblies)
             {
                 interfaceTypes.AddRange(assembly.DefinedTypes
@@ -15,6 +16,9 @@
 
                 implTypes.AddRange(assembly.DefinedTypes
                         .Where(u => u.IsClass && u.ImplementedInterfaces.Any()));
+
+                serviceTypes.AddRange(assembly.DefinedTypes
+                        .Where(u => u.IsClass && u.GetCustomAttribute(typeof(DependencyInjectionAttribute)) != null));
             }
 
             foreach (var interfaceType in interfaceTypes)
@@ -28,6 +32,14 @@
                 {
                     services.Add(new ServiceDescriptor(interfaceType, implType, attribute.ServiceLifetime));
                 }
+            }
+
+            foreach (var serviceType in serviceTypes)
+            {
+                var attribute = serviceType.GetCustomAttribute(typeof(DependencyInjectionAttribute)) as DependencyInjectionAttribute;
+                if (attribute == null) continue;
+
+                services.Add(new ServiceDescriptor(serviceType, serviceType, attribute.ServiceLifetime));
             }
         }
 

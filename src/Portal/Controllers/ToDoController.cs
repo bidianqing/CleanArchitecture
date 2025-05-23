@@ -1,31 +1,37 @@
-﻿using Domain.AggregatesModel.OrderAggregate;
-using Domain.AggregatesModel.ToDoAggregate;
-using Domain.Events;
+﻿using Domain.AggregatesModel.ToDoAggregate;
 using MediatR;
 using Portal.Application.Commands;
 using Portal.Application.Queries;
 
 namespace Portal.Controllers
 {
+    [DependencyInjection(ServiceLifetime.Scoped)]
+    public class TodoServices(
+        IMediator mediator,
+        IToDoQueries queries,
+        ILogger<TodoServices> logger)
+    {
+        public IMediator Mediator { get; set; } = mediator;
+        public ILogger<TodoServices> Logger { get; } = logger;
+        public IToDoQueries Queries { get; } = queries;
+    }
+
+
     [ApiController]
     [Route("todo")]
     public class ToDoController : ControllerBase
     {
-        private readonly ILogger<ToDoController> _logger;
-        private readonly IMediator _mediator;
-        private readonly IToDoQueries _toDoQueries;
+        private readonly TodoServices services;
 
-        public ToDoController(ILogger<ToDoController> logger, IMediator mediator, IToDoQueries toDoQueries)
+        public ToDoController(TodoServices todoServices)
         {
-            _logger = logger;
-            _mediator = mediator;
-            _toDoQueries = toDoQueries;
+            services = todoServices;
         }
 
         [HttpPost]
         public async Task<ResultModel<Guid>> Post([FromBody] CreateToDoCommand command)
         {
-            Guid id = await _mediator.Send(command);
+            Guid id = await services.Mediator.Send(command);
 
             return ResultModel.Success(id);
         }
@@ -33,9 +39,7 @@ namespace Portal.Controllers
         [HttpGet("{id}")]
         public async Task<ResultModel<ToDo>> Get([FromRoute] Guid id)
         {
-            var todo = await _toDoQueries.Get(id);
-
-            await _mediator.Publish(new CreatedOrderDomainEvent(new Order(), id));
+            var todo = await services.Queries.Get(id);
 
             return ResultModel.Success(todo);
         }

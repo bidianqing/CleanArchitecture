@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Repositories;
 using MediatR;
+using Portal.Controllers;
 using SqlSugar;
 
 var builder = WebApplication.CreateBuilder(args);
